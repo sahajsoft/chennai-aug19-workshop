@@ -1,0 +1,88 @@
+Context setting:
+    Talk about devops before automation and then talk about current world with automated devops using IaC tools
+
+Devops before automation:
+    To deploy app on a server,
+    - Get servers
+    - Setup server configuration like networking, create route tables
+    - Install required softwares, configure software like programming language versions
+    - Install databases if required
+
+    All above are 'Preparation of server to run applications'
+
+    This was usually done manually by system admins -> Non efficient, time consuming, prone to errors
+
+    Maintenance nightmare:
+        - Updating programming language versions
+        - Deploying new releases of the application
+        - Database backups / updates
+        - Disaster recovery
+    
+    Environments - typically dev / test, and prod
+        - Increased effort to do the same maintenance for all Environments
+
+
+Devops after automation:
+    All of above Preparation and maintenance tasks are automated with IaC
+
+IaC tools: 
+    Ansible, Terraform, Cloudformation, Puppet, etc.
+
+Why so many tools?
+    No 1 tool for all purposes, each tool can do part of the automation
+
+Categories in devops automation - 3 Categories
+    1. Provisioning of infrastructure
+        - Spinning up new servers
+        - Network configuration
+        - API gateways and load balancers creation
+    
+    2. Configuration of provisioned infrastructure
+        - Installing applications on servers
+        - Managing applications
+        - Installing required language, database to prepare the infrastructure to deploy the application
+    
+    3. Deploying apps on provisioned infrastructure
+    
+
+Hint about how categories (2) and (3) are merged together with docker - Docker image packages all required components to run the app along with the application
+    So after (1), we only need to install docker runtime to run docker containers
+
+
+Distinction of phases
+    A. Provisioning infrastructure and configuring infrastructure (Initial setup)
+    B. Adjustments to infrastructure, adding / removing servers, network config, etc. (Maintenance)
+    C. Installation of required softwares and configuring them (Initial setup)
+    D. Updating softwares, reconfiguring them as requirements change (Maintenance)
+
+Differences in IaC tools
+    - Automate tasks in different categories for different phases of devops
+    - Use combination of more than 1 tool
+
+    Terraform is strong in A, B, C. Not so strong in maintenance of softwares
+    
+    Ansible, Chef, Puppet are strong in C, D, and they can also do B. Not for provisioning infrastructure
+
+Common example of usage of tools
+    Terraform for A, B
+    Ansible for C, D
+
+Other differences in IaC tools
+    - Declarative vs Procedural
+
+    Procedural 
+        Step by step instructions like Create Server, Add Server, etc.
+
+    Declarative
+        Declare what you want as end result like 2 Servers
+
+
+    - Mutable vs Immutable
+    
+    Mutable
+        Can make change to created servers, network setup, etc
+    
+    Immutable
+        Create new and replace old
+    
+    - Agent vs Agentless

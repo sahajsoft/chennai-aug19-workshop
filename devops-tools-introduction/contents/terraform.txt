@@ -1,0 +1,75 @@
+Context setting:
+    Talk about IaC before Terraform
+
+Terraform:
+    - Automate and manage infrastructure
+    - Manage platform (cloud provider)
+    - Services on the platform
+
+Points:
+    - Open source
+    - Declarative
+
+Use case:
+    We have an app that has microservices that need to be run on a platform. App could be docker containers.
+
+Todo:  
+    - Spin up servers
+    - Deploy DB (say containers)
+    - Use AWS platform
+
+    As part of Infrastructure Preparation,
+    - Create VPC
+    - Create EC2 instances
+    - Install docker on each server
+    - Install other required softwares
+    - Configure security, etc.
+
+    - And then deploy application
+
+Terraform is mainly used for Infrastructure Provisioning
+    - It can also do application deployments, but the strength is with infra provisioning
+
+Other tools 
+    Ansible could be used to configure tools on already provisioned infrastructure, deploy apps, and install / update softwares
+
+Managing existing infrastructure
+    Changes to infra like
+    - Add more servers
+    - Add security config
+    - Remove something you don't want now
+
+    All this can be easily accomplished with Terraform
+
+Replicating infrastructure
+    Replicating dev / test environment to create prod
+
+How does Terraform do this? How does it connect to AWS to create EC2, etc?
+
+2 Components in Terraform
+    Core
+    - Accepts 2 input sources
+        - Terraform Config => What to create?
+        - State => Current state of the setup
+    - Outputs Plan
+        - What needs to be created, updated, removed?
+        - In which order?
+    
+    Provider
+    - IaaS => AWS / Azure
+    - Paas => Kubernetes
+    - Saas => Fastly
+
+    - Has 100+ providers and 1000+ resources
+
+Complete app setup can be done - IaaS, Paas, Saas
+    - But Terraform's strength is in IaaS
+    - For others, Ansible could be better
+        - Is this still true?
+
+Example config files
+
+How declarative is useful?
+    I need 5 servers, need users with these permissions => This is better than than telling how many servers to create / remove based on current setup, and how exactly to do it
+
+    This may not mean a lot during initial setup, but it is a killed during maintenance
