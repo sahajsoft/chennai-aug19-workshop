@@ -73,3 +73,10 @@ How declarative is useful?
     I need 5 servers, need users with these permissions => This is better than than telling how many servers to create / remove based on current setup, and how exactly to do it
 
     This may not mean a lot during initial setup, but it is a killed during maintenance
+
+Terraform commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
