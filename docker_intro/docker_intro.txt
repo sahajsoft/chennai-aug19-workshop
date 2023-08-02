@@ -1,0 +1,19 @@
+Docker topics for devops workshop
+Brief intro about docker:
+
+Docker is a containerization platform that allows developers to package applications and their dependencies into portable containers. 
+
+
+Why do we need docker? What were the issues we faced before docker.
+
+Will give real time examples for each of these points mentioned below
+
+1. Dependency Management: Applications often required specific libraries, software versions, and configurations to run correctly. Installing and managing these dependencies on different machines was challenging and often led to compatibility issues.
+
+2. Environment Consistency: Developers could encounter "It works on my machine" problems, where an application ran fine on a developer's machine but failed in other environments due to differences in the operating system, software versions, or other factors.
+
+3. Deployment Complexity: Deploying applications on different servers or cloud environments required manual configuration, which was time-consuming and error-prone.
+
+4. Isolation: Applications running on the same server could interfere with each other, leading to conflicts and performance issues.
+
+5. Scaling: Scaling applications to handle increased traffic or workload was cumbersome and required manual effort to provision new servers.
