@@ -1,0 +1,87 @@
+additionalAgents: 
+  dind:
+    podName: dind-agent
+    customJenkinsLabels: dind-agent
+    image: warrior7089/dind-client-jenkins-agent
+    tag: latest
+    envVars:
+     - name: DOCKER_HOST
+       value: "tcp://localhost:2375"
+    alwaysPullImage: true
+    yamlTemplate:  |-  
+     spec: 
+         containers:
+           - name: dind-daemon 
+             image: docker:20.10-dind
+             securityContext: 
+               privileged: true
+             env: 
+               - name: DOCKER_TLS_VERIFY
+                 value: ""
+
+controller:
+  adminUsername: admin
+  adminPassword: admin
+
+  additionalPlugins:
+  - job-dsl:1.77
+  - permissive-script-security:0.6
+  - docker-workflow:563.vd5d2e5c4007f
+
+  javaOpts: '-Dpermissive-script-security.enabled=true'
+
+  JCasC:
+    defaultConfig: true
+    configScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage: Welcome to Kube-Jenkins!
+      job-config: |
+        jobs:
+          - script: >
+              folder('testjobs')
+          - script: >
+              pipelineJob('testjobs/default-agent') {
+                definition {
+                  cps {
+                    script("""\
+                      pipeline {
+                        agent {
+                          label 'dind-agent'
+                        }
+                        environment {
+                          dockerimagename = "chennai-workshop/react-app"
+                          dockerImage = ""
+                        }
+                        stages {
+                          stage ('test') {
+                            steps {
+                              echo "hello"
+                            }
+                          }
+                          stage('Verify docker works') {
+                            steps {
+                              sh 'docker version'
+                            }
+                          }
+                          stage ('Checkout Source') {
+                            steps {
+                              git branch: 'main', url: 'https://github.com/Bravinsimiyu/jenkins-kubernetes-deployment.git'
+                            }
+                          }
+                          stage ('Build image') {
+                            steps {
+                              script {
+                                dockerImage = docker.build dockerimagename
+                              }
+                            }
+                          }
+                        }
+                      }""".stripIndent())
+                    sandbox()
+                  }
+                }
+              }
+
+  # LOCAL ONLY:
+  serviceType: NodePort
