@@ -74,7 +74,43 @@ Master node explanation\
 	\'97 with this data only scheduler, CM will work on like scheduler comes to know what are the available resources, cluster health for cm\
 	\
 \
+Kubectl\
+\
+- It is a command line tool to interact with the Kubernetes cluster\
+\
+CRUD commands\
+1. Create deployment - kubectl create deployment [name]\
+2. Edit deployment - kubectl edit deployment [name]\
+3. Delete deployment - kubectl delete deployment [name]\
 \
 \
+Status of different K8s components\
 \
-}
+kubectl get nodes | pod | services | replicates | deployment\
+\
+Debugging pods\
+\
+Log to console - kubectl logs [pod_name]\
+Get interactive shell - kubectl exec -it [pod name] \'97 bin/bash\
+\
+Namespaces:\
+\
+- cluster inside a cluster\
+- logically grouping the objects \
+- Used mainly in complex projects or different teams working on same cluster under default namespace\
+\
+\
+EXTERNAL SERVICE VS INGRESS CONTROLLER\
+\
+- External service helps to identify the main app in a cluster but it doesn\'92t have dns mapping\
+Ie) It can be accessible like http://x.x.x.:port\
+By this way we are exposing the ip and port of the service\
+\
+Good practise is to have ingress controller\
+\
+- which has host name resolution\
+- evaluates all the rules\
+- manages redirections\
+- entry point to the cluster\
+\
+All servers in k8s are not open to public access. Then how this ingress will be reached to clients. We have something called proxy server which will have public IP and port that is accessible to public}
