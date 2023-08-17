@@ -1,116 +1,109 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2706
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\f0\fs24 \cf0 Kubernetes\
-\
- - orchestration tool\
- - mainly used for automated deployments, scaling, auto-healing\
-\
-\
-Why need for orchestration tools\
-\
-  \'97 trend from monolith to micro services\
-  \'97 tool which can manage large no of containers, their communication, etc..\
-\
-What orchestration tool offers?\
-\
- \'97 High availability\
- \'97 scalability\
- \'97 disaster recovery\
-\
-Key components of K8s\
-\
-Node  -  physical server machine where the pods reside\
-Pods  -  smallest deployable unit which usually contains one container to multiple container\
-Services - the way for communication between pods and replicas, not connected to the pods\
-Ingress -  acts like a router ie. For external communication\
-Volumes - used for data persistence\
-Configmap - used to store configuration data for an app like db url\
-Secret - to store secret data like credentials, base64 encoded\
-Deployment - replica mechanism for stateless apps\
-Statefulsets - replica mechanism for stateful apps like db\
-\
-\
-Types of nodes\
-\
-1. Worker node\
-2. Master node\
-\
-Worker node explanation\
-\
-These are the nodes where the app containers reside and actually does the work\
-It also contains other processes like kubelet and cube proxy\
-\
-	1.Kubelet\
-\
- 		\'97 this process actually communicates with the node and the pods \
- 		\'97 this is responsible for starting the pods similar to engine\
-\
-	2.Kube proxy\
-\
-		 \'97 used to forward requests from services to pods\
-		 \'97 acts intelligently to avoid network overhead\
-\
-Master node explanation\
-\
-1. API server \
-	\'97 cluster gateway\
-	\'97 checks for authenticated users \
-2. Scheduler\
-	\'97 responsible for scheduling new pods to the nodes\
-	\'97 Identifies which node will be the best for this app\
-3. Control manager\
-	\'97 Used to monitor the cluster state\
-	\'97 Checks for any pod crash, node crash\
-	\'97 If any such disaster occurred it will take immediate action to restore it\
-4. Etcd\
-\
-	\'97 key value store\
-	\'97 used to persist the cluster state data\
-	\'97 with this data only scheduler, CM will work on like scheduler comes to know what are the available resources, cluster health for cm\
-	\
-\
-Kubectl\
-\
-- It is a command line tool to interact with the Kubernetes cluster\
-\
-CRUD commands\
-1. Create deployment - kubectl create deployment [name]\
-2. Edit deployment - kubectl edit deployment [name]\
-3. Delete deployment - kubectl delete deployment [name]\
-\
-\
-Status of different K8s components\
-\
-kubectl get nodes | pod | services | replicates | deployment\
-\
-Debugging pods\
-\
-Log to console - kubectl logs [pod_name]\
-Get interactive shell - kubectl exec -it [pod name] \'97 bin/bash\
-\
-Namespaces:\
-\
-- cluster inside a cluster\
-- logically grouping the objects \
-- Used mainly in complex projects or different teams working on same cluster under default namespace\
-\
-\
-EXTERNAL SERVICE VS INGRESS CONTROLLER\
-\
-- External service helps to identify the main app in a cluster but it doesn\'92t have dns mapping\
-Ie) It can be accessible like http://x.x.x.:port\
-By this way we are exposing the ip and port of the service\
-\
-Good practise is to have ingress controller\
-\
-- which has host name resolution\
-- evaluates all the rules\
-- manages redirections\
-- entry point to the cluster\
-\
-All servers in k8s are not open to public access. Then how this ingress will be reached to clients. We have something called proxy server which will have public IP and port that is accessible to public}
+Kubernetes 
+ 
+ - orchestration tool 
+ - mainly used for automated deployments, scaling, auto-healing 
+ 
+ 
+Why need for orchestration tools 
+ 
+    trend from monolith to micro services 
+    tool which can manage large no of containers, their communication, etc.. 
+ 
+What orchestration tool offers? 
+ 
+   High availability 
+   scalability 
+   disaster recovery 
+ 
+Key components of K8s 
+ 
+Node  -  physical server machine where the pods reside 
+Pods  -  smallest deployable unit which usually contains one container to multiple container 
+Services - the way for communication between pods and replicas, not connected to the pods 
+Ingress -  acts like a router ie. For external communication 
+Volumes - used for data persistence 
+Configmap - used to store configuration data for an app like db url 
+Secret - to store secret data like credentials, base64 encoded 
+Deployment - replica mechanism for stateless apps 
+Statefulsets - replica mechanism for stateful apps like db 
+ 
+ 
+Types of nodes 
+ 
+1. Worker node 
+2. Master node 
+ 
+Worker node explanation 
+ 
+These are the nodes where the app containers reside and actually does the work 
+It also contains other processes like kubelet and cube proxy 
+ 
+	1.Kubelet 
+ 
+ 		  this process actually communicates with the node and the pods  
+ 		  this is responsible for starting the pods similar to engine 
+ 
+	2.Kube proxy 
+ 
+		   used to forward requests from services to pods 
+		   acts intelligently to avoid network overhead 
+ 
+Master node explanation 
+ 
+1. API server  
+	  cluster gateway 
+	  checks for authenticated users  
+2. Scheduler 
+	  responsible for scheduling new pods to the nodes 
+	  Identifies which node will be the best for this app 
+3. Control manager 
+	  Used to monitor the cluster state 
+	  Checks for any pod crash, node crash 
+	  If any such disaster occurred it will take immediate action to restore it 
+4. Etcd 
+ 
+	  key value store 
+	  used to persist the cluster state data 
+	  with this data only scheduler, CM will work on like scheduler comes to know what are the available resources, cluster health for cm 
+	 
+ 
+Kubectl 
+ 
+- It is a command line tool to interact with the Kubernetes cluster 
+ 
+CRUD commands 
+1. Create deployment - kubectl create deployment [name] 
+2. Edit deployment - kubectl edit deployment [name] 
+3. Delete deployment - kubectl delete deployment [name] 
+ 
+ 
+Status of different K8s components 
+ 
+kubectl get nodes | pod | services | replicates | deployment 
+ 
+Debugging pods 
+ 
+Log to console - kubectl logs [pod_name] 
+Get interactive shell - kubectl exec -it [pod name]   bin/bash 
+ 
+Namespaces: 
+ 
+- cluster inside a cluster 
+- logically grouping the objects  
+- Used mainly in complex projects or different teams working on same cluster under default namespace 
+ 
+ 
+EXTERNAL SERVICE VS INGRESS CONTROLLER 
+ 
+- External service helps to identify the main app in a cluster but it doesn't have dns mapping 
+Ie) It can be accessible like http://x.x.x.:port 
+By this way we are exposing the ip and port of the service 
+ 
+Good practise is to have ingress controller 
+ 
+- which has host name resolution 
+- evaluates all the rules 
+- manages redirections 
+- entry point to the cluster 
+ 
+All servers in k8s are not open to public access. Then how this ingress will be reached to clients. We have something called proxy server which will have public IP and port that is accessible to public
