@@ -1,25 +1,6 @@
-additionalAgents: 
-  dind:
-    podName: dind-agent
-    customJenkinsLabels: dind-agent
-    image: warrior7089/dind-client-jenkins-agent
-    tag: latest
-    envVars:
-     - name: DOCKER_HOST
-       value: "tcp://localhost:2375"
-    alwaysPullImage: true
-    yamlTemplate:  |-  
-     spec: 
-         containers:
-           - name: dind-daemon 
-             image: docker:20.10-dind
-             securityContext: 
-               privileged: true
-             env: 
-               - name: DOCKER_TLS_VERIFY
-                 value: ""
-
 controller:
+  image: "lokeshwarand/jenkins"
+  tag: "2.401.3-docker-1"
   adminUsername: admin
   adminPassword: admin
 
@@ -47,7 +28,59 @@ controller:
                     script("""\
                       pipeline {
                         agent {
-                          label 'dind-agent'
+                          kubernetes {
+                            label 'dind'
+                            defaultContainer 'docker'
+                            yaml '''
+                              apiVersion: v1
+                              kind: Pod
+                              metadata:
+                                labels:
+                                  app: jenkins
+                              spec:
+                                serviceAccountName: jenkins
+                                containers:
+                                  - name: docker
+                                    image: docker:latest
+                                    command:
+                                      - /bin/cat
+                                    tty: true
+                                    volumeMounts:
+                                      - name: dind-certs
+                                        mountPath: /certs
+                                    env:
+                                      - name: DOCKER_TLS_CERTDIR
+                                        value: /certs
+                                      - name: DOCKER_CERT_PATH
+                                        value: /certs
+                                      - name: DOCKER_TLS_VERIFY
+                                        value: 1
+                                      - name: DOCKER_HOST
+                                        value: tcp://localhost:2376
+                                  - name: dind
+                                    image: docker:dind
+                                    securityContext:
+                                      privileged: true
+                                    env:
+                                      - name: DOCKER_TLS_CERTDIR
+                                        value: /certs
+                                    volumeMounts:
+                                      - name: dind-storage
+                                        mountPath: /var/lib/docker
+                                      - name: dind-certs
+                                        mountPath: /certs/client
+                                  - name: busybox
+                                    image: busybox
+                                    command:
+                                      - sleep
+                                      - "3600"
+                                volumes:
+                                  - name: dind-storage
+                                    emptyDir: {}
+                                  - name: dind-certs
+                                    emptyDir: {}
+                              '''
+                          }
                         }
                         environment {
                           dockerimagename = "chennai-workshop/react-app"
@@ -73,6 +106,18 @@ controller:
                             steps {
                               script {
                                 dockerImage = docker.build dockerimagename
+                              }
+                            }
+                          }
+                          stage('Deploying App to Kubernetes') {
+                            steps {
+                              container('busybox') {
+                                withKubeConfig([namespace: "dlokesh"]) {
+                                  sh 'wget "https://storage.googleapis.com/kubernetes-release/release/v1.27.4/bin/linux/arm64/kubectl"'
+                                  sh 'chmod u+x ./kubectl'
+                                  sh './kubectl version'
+                                  sh './kubectl get pods'
+                                }
                               }
                             }
                           }
