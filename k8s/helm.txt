@@ -1,0 +1,9 @@
+Helm 
+- package manager for Kubernetes
+- think of something like brew, apt
+
+Three big concepts of helm are
+
+1. Helm charts
+2. Repository
+3. Release
