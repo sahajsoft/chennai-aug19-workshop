@@ -108,6 +108,7 @@ controller:
                           stage ('Build image') {
                             steps {
                               script {
+                                sh 'sed -i "s/amd64/${arch}/" Dockerfile'
                                 dockerImage = docker.build dockerimagename
                               }
                             }
@@ -120,7 +121,8 @@ controller:
                                   sh 'chmod u+x ./kubectl'
                                   sh './kubectl version'
                                   sh './kubectl get pods'
-                                  sh './kubectl -n ${namespace} apply -f deployment-${arch}.yaml'
+                                  sh 'sed -i "s/amd64/${arch}/" deployment.yaml'
+                                  sh './kubectl -n ${namespace} apply -f deployment.yaml'
                                 }
                               }
                             }
