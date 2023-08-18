@@ -1,7 +1,3 @@
-persistence:
-  existingClaim: ${pvcClaimName}
-
-
 serviceAccount:
   create: true
   name: jenkins-${username}
