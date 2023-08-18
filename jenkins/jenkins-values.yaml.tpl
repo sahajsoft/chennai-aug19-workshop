@@ -1,6 +1,11 @@
 persistence:
   existingClaim: ${pvcClaimName}
 
+
+serviceAccount:
+  create: true
+  name: jenkins-${username}
+
 controller:
   adminUsername: admin
   adminPassword: admin
@@ -9,6 +14,7 @@ controller:
   - job-dsl:1.77
   - permissive-script-security:0.6
   - docker-workflow:563.vd5d2e5c4007f
+  - kubernetes-cli:1.12.0
 
   javaOpts: '-Dpermissive-script-security.enabled=true'
 
@@ -39,7 +45,7 @@ controller:
                                 labels:
                                   app: jenkins
                               spec:
-                                serviceAccountName: jenkins
+                                serviceAccountName: jenkins-${username}
                                 containers:
                                   - name: docker
                                     image: docker:latest
@@ -113,12 +119,12 @@ controller:
                           stage('Deploying App to Kubernetes') {
                             steps {
                               container('kubectl') {
-                                withKubeConfig([namespace: "dlokesh"]) {
-                                  sh 'wget "https://storage.googleapis.com/kubernetes-release/release/v1.27.4/bin/linux/arm64/kubectl"'
+                                withKubeConfig([namespace: "${namespace}"]) {
+                                  sh 'wget "https://storage.googleapis.com/kubernetes-release/release/v1.27.4/bin/linux/${arch}/kubectl"'
                                   sh 'chmod u+x ./kubectl'
                                   sh './kubectl version'
                                   sh './kubectl get pods'
-                                  sh './kubectl -n dlokesh apply -f deployment.yaml'
+                                  sh './kubectl -n ${namespace} apply -f deployment.yaml'
                                 }
                               }
                             }
@@ -131,4 +137,5 @@ controller:
               }
 
   # LOCAL ONLY:
-  serviceType: NodePort
+  serviceType: ClusterIP
+  servicePort: ${servicePort}
