@@ -1,3 +1,6 @@
+persistence:
+  existingClaim: ${pvcClaimName}
+
 controller:
   adminUsername: admin
   adminPassword: admin
