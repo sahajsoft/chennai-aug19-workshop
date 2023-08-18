@@ -102,7 +102,7 @@ controller:
                           }
                           stage ('Checkout Source') {
                             steps {
-                              git branch: 'main', url: 'https://github.com/Bravinsimiyu/jenkins-kubernetes-deployment.git'
+                              git branch: 'main', url: 'https://github.com/dlokesh/jenkins-kubernetes-deployment.git'
                             }
                           }
                           stage ('Build image') {
@@ -120,7 +120,7 @@ controller:
                                   sh 'chmod u+x ./kubectl'
                                   sh './kubectl version'
                                   sh './kubectl get pods'
-                                  sh './kubectl -n ${namespace} apply -f deployment.yaml'
+                                  sh './kubectl -n ${namespace} apply -f deployment-${arch}.yaml'
                                 }
                               }
                             }
