@@ -1,5 +1,4 @@
-# chennai-aug19-workshop
-
+# 2023-08-19 - Infra Workshop
 
 ### Tools required:
 
