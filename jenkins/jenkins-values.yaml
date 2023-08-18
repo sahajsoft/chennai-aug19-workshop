@@ -1,6 +1,4 @@
 controller:
-  image: "lokeshwarand/jenkins"
-  tag: "2.401.3-docker-1"
   adminUsername: admin
   adminPassword: admin
 
@@ -69,7 +67,7 @@ controller:
                                         mountPath: /var/lib/docker
                                       - name: dind-certs
                                         mountPath: /certs/client
-                                  - name: busybox
+                                  - name: kubectl
                                     image: busybox
                                     command:
                                       - sleep
@@ -111,12 +109,13 @@ controller:
                           }
                           stage('Deploying App to Kubernetes') {
                             steps {
-                              container('busybox') {
+                              container('kubectl') {
                                 withKubeConfig([namespace: "dlokesh"]) {
                                   sh 'wget "https://storage.googleapis.com/kubernetes-release/release/v1.27.4/bin/linux/arm64/kubectl"'
                                   sh 'chmod u+x ./kubectl'
                                   sh './kubectl version'
                                   sh './kubectl get pods'
+                                  sh './kubectl -n dlokesh apply -f deployment.yaml'
                                 }
                               }
                             }
