@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app 
+    spec:
+      containers:
+      - name: react-app
+        image: lokeshwarand/react-app:arm64-1.0
+        ports:
+        - containerPort: 3000
