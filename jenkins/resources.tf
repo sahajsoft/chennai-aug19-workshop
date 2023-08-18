@@ -21,6 +21,8 @@ resource "kubernetes_persistent_volume_claim" "jenkins-pvc-claim" {
     }
     storage_class_name = "ebs"
   }
+
+  wait_until_bound = false
 }
 
 resource "random_integer" "jenkins-service-port" {
