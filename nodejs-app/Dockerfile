@@ -2,11 +2,11 @@ FROM node:12
 
 WORKDIR /app
 
-COPY package.json /app
+COPY package.json .
 
 RUN npm install
 
-COPY . /app
+COPY . .
 
 EXPOSE 80
 
