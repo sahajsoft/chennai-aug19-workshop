@@ -16,7 +16,7 @@ resource "kubernetes_persistent_volume_claim" "jenkins-pvc-claim" {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "8Gi"
+        storage = "2Gi"
       }
     }
     storage_class_name = "ebs"
